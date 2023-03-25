@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+
+  <div class="container pt-1">
+    <div class="row-6  p-0 mt-4 ">
+      <div class="col-lg-4 mx-auto shadow p-0">
+        <div class="alert alert-info">
+          <h2>Add Expense</h2>
+        </div>
+        <div class="p-4">
+          <form action="/add-todo/" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <hr>
+            <input type="submit" value="ADD" class="btn btn-info">
+          </form>
+        </div>
+
+      </div>
+
+      {% comment %} <div class="row  p-0 mt-4">
+        <div class="col-lg-4 mx-auto shadow p-0"> {% endcomment %}
+          <div class="alert alert-info">
+            <form  action="{% url 'searchbar' %}" method = 'get'>
+              <input type="search" name="search"> 
+              <button type="submit"> Search </button>
+            </form>
+          {% comment %} </div>
+        </div> {% endcomment %}
+      
+    
+
+
+      <div class="col">
+        <div class="border">
+
+          {% if todos|length == 0 %}
+
+          <div class="p-4">
+            <br>
+            <br>
+            <div class="alert alert-info text-center">
+              <p class="" style="font-size: 30px;">No Expenses</p>
+            </div>
+            <br>
+            <br>
+          </div>
+
+          {%else%}
+          <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Date Created</th>
+                  <th>Ammount</th>
+                  <th>Updated at</th>
+                  <th>Created by</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                {% for todo in todos %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{todo.name}}</td>
+                  <td>{{todo.category}}</td>
+                  <td>{{todo.date_of_expense}}</td>
+                  <td>{{todo.ammount}}</td>
+                  <td>{{todo.updated_at}}</td>
+
+                    {% if not todo.user.is_superuser %}
+                    <td>{{todo.user.username}}</td>
+                    {%else%}
+                    <td> me </td>
+                    {% endif %}
+                  
+                  
+                    <td>
+                    {% if not todo.user.is_superuser %}
+                    <p> -- <p/>
+                    {% else %}
+                    <a href="/edit-page/{{todo.id}}" title="Edit" class="">✐</a>
+                    <a href="/delete-todo/{{todo.id}}" title="Delete" class="">🗑️</a>
+                    {% endif %}
+                    </td>
+                </tr>
+                {%endfor%}
+
+
+              </tbody>
+            </table>
+          </div>
+          {%endif%}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

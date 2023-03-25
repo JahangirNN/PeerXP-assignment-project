@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+
+  <div class="container pt-1">
+    <div class="row-6  p-0 mt-4 ">
+      <div class="col-lg-4 mx-auto shadow p-0">
+        <div class="alert alert-info">
+          <h2>Edit Expense</h2>
+        </div>
+        <div class="p-4">
+          <form action="/edit-todo/{{id}}" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <hr>
+            <input type="submit" value="EDIT" class="btn btn-info">
+          </form>
+        </div>
+
+      </div>
+
+<div/>
+{% endblock %}
